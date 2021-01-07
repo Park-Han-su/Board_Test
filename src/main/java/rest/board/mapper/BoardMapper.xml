@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rest.board.mapper.BoardMapper">
+  
+  <insert id="insert" parameterType="board">
+  	insert into board (
+  		title
+  		,content
+  		,m_id
+  		<if test="file1Name != null">
+  		,file1Name
+  		,file1SName
+  		</if>
+  	) values (
+  		#{title}
+  		,#{content}
+  		,#{m_id}
+  		<if test="file1Name != null">
+  		,#{file1Name}
+  		,#{file1SName}
+  		</if>
+  	)
+  </insert>
+  
+  <select id="selectCount" resultType="int">
+  	select count(*)
+  	from board
+  </select>
+  
+  <select id="select" parameterType="board" resultType="board">
+  	select 	a.id
+  			,a.title
+  			<if test="id != null">
+  			,a.content
+  			,a.file1Name
+  			,a.file1SName
+  			</if>
+  			,a.reg_date
+  			,a.m_id
+  			,b.email
+  			,a.update_date
+  	from board a
+  	inner join member b on a.m_id = b.id 
+  	<trim prefix="where" prefixOverrides="and | or">
+  		<if test="id != null">
+  			and a.id = #{id}
+  		</if>
+  	</trim>
+  	order by a.reg_date desc
+  	limit #{pageIndex}, #{perPageCount}
+  </select>
+  
+  <delete id="delete" parameterType="board">
+  	delete from board
+  	<trim prefix="where" prefixOverrides="and | or">
+  		<if test="id != null">
+  			and id = #{id}
+  		</if>
+  	</trim>
+  </delete>
+  
+  <update id="update" parameterType="board">
+  	update board set 
+  		title = #{title}
+  		,content = #{content}
+  		<if test="file1Name != null">
+  		,file1Name = #{file1Name}
+  		,file1SName = #{file1SName}
+  		</if>
+  		,update_date = CURRENT_TIMESTAMP
+  	<trim prefix="where" prefixOverrides="and | or">
+  		<if test="id != null">
+  			and id = #{id}
+  		</if>
+  	</trim>
+  </update>
+  
+  
+  
+  
+  
+  
+</mapper>
