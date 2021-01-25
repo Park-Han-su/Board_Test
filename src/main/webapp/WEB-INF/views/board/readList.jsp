@@ -3,8 +3,8 @@
 		<h1>Board List</h1>
 		<c:forEach var="board" items="${boardList }">
 		<ul>
-			<li>${board.id }</li>
-			<li><a href='<c:url value="/board/readOne?id=${board.id }"/>'>${board.title }</a></li>
+			<li>${board.seq }</li>
+			<li><a href='<c:url value="/board/readOne?id=${board.seq }"/>'>${board.title }</a></li>
 			<li>${board.email }</li>
 			<li>${board.reg_date }</li>
 		</ul>

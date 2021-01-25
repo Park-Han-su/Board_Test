@@ -30,9 +30,9 @@
   </select>
   
   <select id="select" parameterType="board" resultType="board">
-  	select 	a.id
+  	select 	a.seq
   			,a.title
-  			<if test="id != null">
+  			<if test="seq != null">
   			,a.content
   			,a.file1Name
   			,a.file1SName
@@ -44,19 +44,23 @@
   	from board a
   	inner join member b on a.m_id = b.id 
   	<trim prefix="where" prefixOverrides="and | or">
-  		<if test="id != null">
-  			and a.id = #{id}
+  		<if test="seq != null">
+  			and a.seq = #{seq}
   		</if>
   	</trim>
   	order by a.reg_date desc
-  	limit #{pageIndex}, #{perPageCount}
+  	<trim>
+  		<if test="pageIndex != null">
+	  	limit #{pageIndex}, #{perPageCount}
+  		</if>
+  	</trim>
   </select>
   
   <delete id="delete" parameterType="board">
   	delete from board
   	<trim prefix="where" prefixOverrides="and | or">
-  		<if test="id != null">
-  			and id = #{id}
+  		<if test="seq != null">
+  			and seq = #{seq}
   		</if>
   	</trim>
   </delete>
@@ -71,8 +75,8 @@
   		</if>
   		,update_date = CURRENT_TIMESTAMP
   	<trim prefix="where" prefixOverrides="and | or">
-  		<if test="id != null">
-  			and id = #{id}
+  		<if test="seq != null">
+  			and seq = #{seq}
   		</if>
   	</trim>
   </update>
